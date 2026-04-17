@@ -55,7 +55,7 @@ npm install
 cp .env.example .env.local
 ```
 
-Fill in the 5 values in `.env.local`:
+Fill in the values in `.env.local`:
 
 ```
 ANTHROPIC_API_KEY=          # From console.anthropic.com
@@ -63,7 +63,10 @@ BROWSERBASE_API_KEY=        # From browserbase.com dashboard
 BROWSERBASE_PROJECT_ID=     # From browserbase.com → Settings
 SLACK_BOT_TOKEN=            # xoxb-... (see Slack setup below)
 SLACK_SIGNING_SECRET=       # From your Slack app's Basic Information page
+NGROK_AUTHTOKEN=            # Local dev only — from dashboard.ngrok.com/get-started/your-authtoken
 ```
+
+Install ngrok (Mac): `brew install ngrok`. Grab your authtoken from [ngrok's dashboard](https://dashboard.ngrok.com/get-started/your-authtoken).
 
 ### 3. Create a Slack app
 
@@ -104,19 +107,13 @@ settings:
 
 ### 4. Start the dev server
 
-In two terminals:
-
 ```bash
-# Terminal 1
 npm run dev
 ```
 
-```bash
-# Terminal 2
-ngrok http 3000
-```
+This starts Next.js **and** the ngrok tunnel together. Look for the `Forwarding` line in the ngrok output — it shows your public URL like `https://abc-123.ngrok-free.dev`. Copy it.
 
-ngrok will print a public URL like `https://abc-123.ngrok-free.dev`. Copy it.
+Pressing `Ctrl+C` stops both processes.
 
 ### 5. Point Slack at your ngrok URL
 
