@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -n next,ngrok -c blue,magenta --kill-others \"next dev\" \"dotenv -e .env.local -- ngrok http 3000\"",
+    "dev": "concurrently -n next,ngrok,info -c blue,magenta,green --kill-others-on-fail \"next dev\" \"dotenv -e .env.local -- ngrok http 3000\" \"npx tsx scripts/print-ngrok-url.ts\"",
     "dev:next": "next dev",
     "build": "next build",
     "start": "next start",
@@ -31,6 +31,7 @@
     "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

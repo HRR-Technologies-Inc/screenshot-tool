@@ -31,9 +31,22 @@ Set maxPages to 5 by default, 1 if they only want the homepage, up to 10 if they
   return result.object;
 }
 
+// Claude occasionally returns arrays as JSON-encoded strings — normalize both shapes.
+const stringArray = z.preprocess((val) => {
+  if (Array.isArray(val)) return val;
+  if (typeof val === "string") {
+    try {
+      const parsed = JSON.parse(val);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {}
+    return val.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+  }
+  return val;
+}, z.array(z.string()));
+
 const synthesisSchema = z.object({
   summary: z.string(),
-  bulletPoints: z.array(z.string()),
+  bulletPoints: stringArray,
   selectedFindings: z.array(
     z.object({
       findingIndex: z.number(),
